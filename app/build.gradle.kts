@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("com.google.devtools.ksp") version "1.9.10-1.0.13"
 }
 
 android {
@@ -47,6 +48,11 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    sourceSets {
+        getByName("main") {
+            java.srcDirs("build/generated/ksp/main/kotlin")
+        }
+    }
 }
 
 dependencies {
@@ -58,6 +64,10 @@ dependencies {
     implementation(libs.material.icons.core)
     implementation(libs.material.icons.extended)
     implementation(libs.androidx.window)
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
+    implementation(libs.datastore.preferences)
 
 
     // Jetpack Compose
