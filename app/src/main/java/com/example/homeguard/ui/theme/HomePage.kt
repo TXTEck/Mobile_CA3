@@ -18,8 +18,10 @@ import coil.compose.rememberAsyncImagePainter
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChatBubbleOutline
 import androidx.compose.material.icons.filled.Mic
+import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.homeguard.R
 
 @Composable
 fun HomePage(navController: NavController) {
@@ -101,7 +103,7 @@ fun CameraFeed() {
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             Image(
-                painter = rememberAsyncImagePainter("https://via.placeholder.com/400"),
+                painter = painterResource(id = R.drawable.mail),
                 contentDescription = "Camera Feed",
                 modifier = Modifier.fillMaxSize()
             )
