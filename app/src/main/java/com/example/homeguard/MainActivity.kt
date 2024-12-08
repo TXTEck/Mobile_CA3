@@ -8,12 +8,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
+
 import com.example.homeguard.ui.*
 import com.example.homeguard.ui.theme.NotificationsPage
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.composable
+import androidx.compose.animation.*
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,27 +26,37 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
+@OptIn(ExperimentalAnimationApi::class)
 fun HomeGuardApp() {
-    val navController = rememberNavController()
+    val navController = rememberAnimatedNavController()
 
     Scaffold(
-        bottomBar = { Navbar(navController) }
+        bottomBar = {
+            Navbar(navController = navController)
+        }
     ) { innerPadding ->
-        NavHost(
+        AnimatedNavHost(
             navController = navController,
             startDestination = "home",
-            modifier = Modifier.padding(innerPadding)
+            modifier = Modifier.padding(innerPadding),
+            enterTransition = { slideInHorizontally() },
+            exitTransition = { slideOutHorizontally() },
+            popEnterTransition = { slideInHorizontally(initialOffsetX = { -300 }) },
+            popExitTransition = { slideOutHorizontally(targetOffsetX = { 300 }) }
         ) {
-            composable("home") { HomePage() }
-            composable("camera") { RecordingsPage() }
-            composable("notifications") { NotificationsPage() }
-            composable("settings") { SettingsPage() }
+            composable("home") { HomePage(navController) }
+            composable("settings") { SettingsPage(navController) }
+            composable("notifications") { NotificationsPage(navController) }
+            composable("recordings") { RecordingsPage(navController) }
         }
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable
 fun HomeGuardAppPreview() {
     HomeGuardApp()
 }
+
+

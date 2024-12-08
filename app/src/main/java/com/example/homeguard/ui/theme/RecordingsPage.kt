@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 
 data class Recording(
@@ -25,7 +26,7 @@ data class Recording(
 )
 
 @Composable
-fun RecordingsPage() {
+fun RecordingsPage(navController: NavController) {
     val recordings = listOf(
         Recording(
             thumbnailUrl = "https://via.placeholder.com/400",
@@ -68,7 +69,7 @@ fun RecordingsPage() {
                 verticalArrangement = Arrangement.spacedBy(if (isCompact) 12.dp else 24.dp)
             ) {
                 items(recordings) { recording ->
-                    RecordingCard(recording, isCompact)
+                    RecordingCard(recording, isCompact,navController)
                 }
             }
         }
@@ -76,7 +77,7 @@ fun RecordingsPage() {
 }
 
 @Composable
-fun RecordingCard(recording: Recording, isCompact: Boolean) {
+fun RecordingCard(recording: Recording, isCompact: Boolean,navController: NavController) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -134,14 +135,4 @@ fun RecordingCard(recording: Recording, isCompact: Boolean) {
     }
 }
 
-@Preview(showBackground = true, backgroundColor = 0xFF000000, widthDp = 360, heightDp = 640)
-@Composable
-fun RecordingsPageCompactPreview() {
-    RecordingsPage()
-}
 
-@Preview(showBackground = true, backgroundColor = 0xFF000000, widthDp = 800, heightDp = 1280)
-@Composable
-fun RecordingsPageExpandedPreview() {
-    RecordingsPage()
-}

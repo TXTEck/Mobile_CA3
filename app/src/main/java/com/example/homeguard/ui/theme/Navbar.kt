@@ -4,7 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.Videocam
+import androidx.compose.material.icons.filled.VideoLibrary
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
@@ -14,7 +14,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 
 @Composable
 fun Navbar(navController: NavController) {
-    val items = listOf("home", "camera", "notifications", "settings")
+    // Updated route names to match the routes in AnimatedNavHost
+    val items = listOf("home", "recordings", "notifications", "settings")
 
     NavigationBar(
         containerColor = Color.DarkGray,
@@ -27,10 +28,10 @@ fun Navbar(navController: NavController) {
             NavigationBarItem(
                 icon = {
                     when (item) {
-                        "home" -> Icon(Icons.Default.Home, contentDescription = "Home", tint = Color.White)
-                        "camera" -> Icon(Icons.Default.Videocam, contentDescription = "Camera", tint = Color.White)
-                        "notifications" -> Icon(Icons.Default.Notifications, contentDescription = "Notifications", tint = Color.White)
-                        "settings" -> Icon(Icons.Default.Settings, contentDescription = "Settings", tint = Color.White)
+                        "home" -> Icon(Icons.Default.Home, contentDescription = "Home")
+                        "recordings" -> Icon(Icons.Default.VideoLibrary, contentDescription = "Recordings")
+                        "notifications" -> Icon(Icons.Default.Notifications, contentDescription = "Notifications")
+                        "settings" -> Icon(Icons.Default.Settings, contentDescription = "Settings")
                     }
                 },
                 selected = currentRoute == item,

@@ -10,6 +10,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.homeguard.viewmodel.SettingsViewModel
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,7 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun SettingsPage(viewModel: SettingsViewModel = viewModel()) {
+fun SettingsPage(navController: NavController, viewModel: SettingsViewModel = viewModel()) {
     val userName = viewModel.userName.collectAsState()
     val userAddress = viewModel.userAddress.collectAsState()
 
@@ -29,6 +30,7 @@ fun SettingsPage(viewModel: SettingsViewModel = viewModel()) {
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        // Page Header
         Text(
             text = "HomeGuard",
             style = MaterialTheme.typography.headlineSmall,
@@ -36,16 +38,22 @@ fun SettingsPage(viewModel: SettingsViewModel = viewModel()) {
             modifier = Modifier.padding(bottom = 16.dp)
         )
 
+        // Name Setting Item
         SettingsItem(
             label = "Name",
             value = userName.value ?: "Loading...",
-            onClick = { /* Open dialog to edit */ }
+            onClick = {
+                navController.navigate("editNamePage")
+            }
         )
 
+        // Address Setting Item
         SettingsItem(
             label = "Address",
             value = userAddress.value ?: "Loading...",
-            onClick = { /* Open dialog to edit */ }
+            onClick = {
+                navController.navigate("editAddressPage")
+            }
         )
     }
 }

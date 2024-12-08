@@ -14,27 +14,28 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChatBubbleOutline
 import androidx.compose.material.icons.filled.Mic
+import androidx.navigation.NavController
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
-fun HomePage() {
+fun HomePage(navController: NavController) {
     BoxWithConstraints {
         val isCompact = maxWidth < 600.dp
 
         if (isCompact) {
-            CompactHomePage()
+            CompactHomePage(navController)
         } else {
-            ExpandedHomePage()
+            ExpandedHomePage(navController)
         }
     }
 }
 
 @Composable
-fun CompactHomePage() {
+fun CompactHomePage(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -45,12 +46,12 @@ fun CompactHomePage() {
         Header()
         CameraFeed()
         MicrophoneSection()
-        PreRecordedMessages()
+        PreRecordedMessages(navController)
     }
 }
 
 @Composable
-fun ExpandedHomePage() {
+fun ExpandedHomePage(navController: NavController) {
     Row(
         modifier = Modifier
             .fillMaxSize()
@@ -73,7 +74,7 @@ fun ExpandedHomePage() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             MicrophoneSection()
-            PreRecordedMessages()
+            PreRecordedMessages(navController)
         }
     }
 }
@@ -100,7 +101,7 @@ fun CameraFeed() {
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             Image(
-                painter = rememberImagePainter("https://via.placeholder.com/400"),
+                painter = rememberAsyncImagePainter("https://via.placeholder.com/400"),
                 contentDescription = "Camera Feed",
                 modifier = Modifier.fillMaxSize()
             )
@@ -158,7 +159,7 @@ fun MicrophoneSection() {
 }
 
 @Composable
-fun PreRecordedMessages() {
+fun PreRecordedMessages(navController: NavController) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
@@ -173,7 +174,7 @@ fun PreRecordedMessages() {
         Spacer(modifier = Modifier.width(8.dp))
         ClickableText(
             text = AnnotatedString("Pre-Recorded Messages"),
-            onClick = { /* Handle click */ },
+            onClick = { navController.navigate("recordings") },
             style = MaterialTheme.typography.bodyLarge.copy(color = Color.Cyan)
         )
     }
@@ -182,5 +183,6 @@ fun PreRecordedMessages() {
 @Preview(showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun HomePagePreview() {
-    HomePage()
+    // Use a dummy NavController for preview purposes
+    HomePage(navController = androidx.navigation.compose.rememberNavController())
 }
